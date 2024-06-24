@@ -47,13 +47,16 @@ def login():
 
 @app.route('/auth/callback')
 def auth_callback():
-    token = google.authorize_access_token()
-    if token:
-        resp = google.get('userinfo')
-        user_info = resp.json()
-        session['user'] = user_info
-        return redirect(url_for('index'))
-    return 'Authorization failed.'
+    try:
+        token = google.authorize_access_token()
+        if token:
+            resp = google.get('userinfo')
+            user_info = resp.json()
+            session['user'] = user_info
+            return redirect(url_for('index'))
+        return 'Authorization failed.'
+    except Exception as e:
+        return f'An error occurred: {str(e)}'
 
 @app.route('/logout')
 def logout():
