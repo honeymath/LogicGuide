@@ -7,7 +7,7 @@ db = client.mydatabase
 
 @app.route('/')
 def hello_world():
-    return 'This is github speaking. Please answer'
+    return 'Test this out please, update immediately'
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
