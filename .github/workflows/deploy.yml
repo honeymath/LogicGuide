@@ -3,7 +3,7 @@ name: Deploy to Server
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   deploy:
@@ -33,7 +33,7 @@ jobs:
         chmod 600 id_rsa
         ssh -o StrictHostKeyChecking=no -i id_rsa ${{ env.SERVER_USER }}@${{ env.SERVER_IP }} << 'EOF'
           cd /home/flaskuser/gptapi
-          git pull origin main
+          git pull origin master
           source venv/bin/activate
           pip install -r requirements.txt
           sudo systemctl restart flaskapp
