@@ -3,12 +3,19 @@ from pymongo import MongoClient, errors
 
 app = Flask(__name__)
 
-try:
-    client = MongoClient('localhost', 27017)
+def get_mongo_client():
+    try:
+        client = MongoClient('localhost', 27017, serverSelectionTimeoutMS=5000)
+        client.server_info()  # Force connection on a request as the connect=True parameter of MongoClient seems to be useless here
+        return client
+    except errors.ServerSelectionTimeoutError as err:
+        print(f"Could not connect to MongoDB: {err}")
+        return None
+
+client = get_mongo_client()
+if client:
     db = client.mydatabase
     collection = db.mycollection
-except errors.ConnectionError as e:
-    print(f"Could not connect to MongoDB: {e}")
 
 @app.route('/')
 def hello_world():
@@ -16,6 +23,8 @@ def hello_world():
 
 @app.route('/create')
 def create_data():
+    if not client:
+        return "Could not connect to MongoDB", 500
     try:
         sample_data = {'name': 'Alice', 'age': 25}
         collection.insert_one(sample_data)
@@ -25,6 +34,8 @@ def create_data():
 
 @app.route('/read')
 def read_data():
+    if not client:
+        return "Could not connect to MongoDB", 500
     try:
         data = collection.find_one({'name': 'Alice'})
         if data:
