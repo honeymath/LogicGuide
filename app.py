@@ -32,13 +32,11 @@ google = oauth.register(
 
 @app.route('/')
 def index():
-    try:
-        email = dict(session).get('email', None)
-        return f'Hello, you are logged in as: {email}' if email else 'Hello, you are not logged in. <a href="/login">Login</a>'
-    except Exception as e:
-        error_message = f"An error occurred: {e}"
-        print(error_message)
-        return error_message, 500
+    email = dict(session).get('email')
+    if email:
+        return f'Hello, {email}!'
+    else:
+        return 'Hello, you are not logged in. <a href="/login">Login</a>'
 
 @app.route('/login')
 def login():
@@ -46,9 +44,7 @@ def login():
         redirect_uri = url_for('auth_callback', _external=True)
         return google.authorize_redirect(redirect_uri)
     except Exception as e:
-        error_message = f"An error occurred during login: {e}"
-        print(error_message)
-        return error_message, 500
+        return f'Error during login: {e}'
 
 @app.route('/auth/callback')
 def auth_callback():
@@ -59,19 +55,12 @@ def auth_callback():
         session['email'] = user_info['email']
         return redirect('/')
     except Exception as e:
-        error_message = f"An error occurred during the callback: {e}"
-        print(error_message)
-        return error_message, 500
+        return f'Error during callback: {e}'
 
 @app.route('/logout')
 def logout():
-    try:
-        session.pop('email', None)
-        return redirect('/')
-    except Exception as e:
-        error_message = f"An error occurred during logout: {e}"
-        print(error_message)
-        return error_message, 500
+    session.pop('email', None)
+    return redirect('/')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
