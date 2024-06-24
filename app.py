@@ -1,12 +1,14 @@
 import os
-from flask import Flask, redirect, url_for, session
+from flask import Flask, redirect, url_for, session, request, jsonify
 from authlib.integrations.flask_client import OAuth
+from flask_session import Session
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'  # 你应该使用更安全的密钥
 
-# 简单配置
+# 配置Flask-Session
 app.config['SESSION_TYPE'] = 'filesystem'
+Session(app)
 
 # 读取凭证文件
 def load_credentials(file_path):
@@ -27,11 +29,15 @@ google = oauth.register(
     client_secret=credentials.get('GOOGLE_CLIENT_SECRET'),
     access_token_url='https://accounts.google.com/o/oauth2/token',
     authorize_url='https://accounts.google.com/o/oauth2/auth',
+    userinfo_endpoint='https://www.googleapis.com/oauth2/v1/userinfo',  # 用户信息端点
     client_kwargs={'scope': 'openid profile email'},
 )
 
 @app.route('/')
 def index():
+    user = session.get('user')
+    if user:
+        return f'Hello, {user["name"]}!'
     return 'Hello, you are not logged in. <a href="/login">Login</a>'
 
 @app.route('/login')
@@ -42,7 +48,17 @@ def login():
 @app.route('/auth/callback')
 def auth_callback():
     token = google.authorize_access_token()
-    return f'Authorization successful, token: {token}'
+    if token:
+        resp = google.get('userinfo')
+        user_info = resp.json()
+        session['user'] = user_info
+        return redirect(url_for('index'))
+    return 'Authorization failed.'
+
+@app.route('/logout')
+def logout():
+    session.pop('user', None)
+    return redirect(url_for('index'))
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
