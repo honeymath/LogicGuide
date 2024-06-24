@@ -1,5 +1,5 @@
 from flask import Flask
-#from authlib.integrations.flask_client import OAuth
+from authlib.integrations.flask_client import OAuth
 from flask_session import Session
 
 app = Flask(__name__)
