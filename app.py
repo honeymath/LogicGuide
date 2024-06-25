@@ -1,5 +1,5 @@
 import os
-from flask import Flask, redirect, url_for, session, request, jsonify
+from flask import Flask, redirect, url_for, session, request
 from authlib.integrations.flask_client import OAuth
 from flask_session import Session
 
@@ -27,9 +27,10 @@ google = oauth.register(
     name='google',
     client_id=credentials.get('GOOGLE_CLIENT_ID'),
     client_secret=credentials.get('GOOGLE_CLIENT_SECRET'),
-    access_token_url='https://accounts.google.com/o/oauth2/token',
+    access_token_url='https://oauth2.googleapis.com/token',
     authorize_url='https://accounts.google.com/o/oauth2/auth',
     userinfo_endpoint='https://www.googleapis.com/oauth2/v1/userinfo',  # 用户信息端点
+    jwks_uri='https://www.googleapis.com/oauth2/v3/certs',
     client_kwargs={'scope': 'openid profile email'},
 )
 
