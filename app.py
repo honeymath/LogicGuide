@@ -51,7 +51,7 @@ def auth_callback():
     try:
         token = google.authorize_access_token()
         if token:
-            resp = google.get('userinfo')
+            resp = google.get('https://www.googleapis.com/oauth2/v1/userinfo')  # 使用完整的URL
             user_info = resp.json()
             session['user'] = user_info
             return redirect(url_for('index'))
