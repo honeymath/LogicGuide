@@ -39,7 +39,8 @@ def index():
     user = session.get('user')
     if user:
         return f'Hello, {user["name"]}!'
-    return 'Hello, you are not logged in. <a href="/login">Login</a>'
+#    return 'Hello, you are not logged in. <a href="/login">Login</a>'
+    return render_template('index.html')
 
 @app.route('/login')
 def login():
