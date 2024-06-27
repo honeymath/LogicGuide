@@ -40,7 +40,10 @@ def index():
     if user:
         return f'Hello, {user["name"]}!'
 #    return 'Hello, you are not logged in. <a href="/login">Login</a>'
-    return render_template('index.html')
+    try:
+        return render_template('index.html')
+    except Exception as e:
+        return f'An error occurred: {str(e)}'
 
 @app.route('/login')
 def login():
