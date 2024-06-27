@@ -1,4 +1,6 @@
 [](app.py)
+[](index.html)
+[](CSS/main.css)
 [](.github/workflows/deploy.yml)
 
 ### Introduction to LogicGuide

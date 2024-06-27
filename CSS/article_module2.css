@@ -1,0 +1,42 @@
+div#normalpad{
+	background:transparent;
+	height:auto;
+}
+div#normalpad #contentbar{
+	width:300px;
+	height:auto;
+	float:left;
+	margin-left:100px;
+	margin-right:130px;
+}
+
+div#normalpad #mainbar{
+	position:absolute;
+	margin-left:5%;
+	margin-top:20px;
+	margin-right:5%;
+	width:90%;
+	height:100%;
+	float:left;
+	background:rgba(255,255,255,0.7);
+}
+div#normalpad #mainbar .bartitle
+{
+	margin-top:0px;
+	color:#66ffa7;
+	font-weight:900;
+	font-size:100;
+}
+div#normalpad #mainbar .article
+{
+	position:relative;
+	margin-top:0px;
+	margin-left:10%;
+	margin-right:10%;
+	color:#000000;
+	font-weight:900;
+	font-size:20;
+}
+
+
+

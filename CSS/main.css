@@ -1,0 +1,21 @@
+body{
+	margin:0;
+}
+div#main{
+	margin:0;
+	padding:0;
+	border:0;
+	width:100%;/*主容器宽度*/
+	height:100%;
+	margin-left:0;
+	margin-top:0;
+	margin-right:auto;
+	background:transparent;
+}
+div#main *{
+	margin:0;
+	padding:0;
+	border:0;
+	//font-family:Microsoft YaHei,arial,SimHei,\5b8b\4f53;
+}
+
