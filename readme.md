@@ -3,7 +3,7 @@
 [](CSS/main.css)
 [](.github/workflows/deploy.yml) 
 
-### Introduction to QuizBooster
+# Introduction to QuizBooster
 
 QuizBooster is a platform designed to streamline quiz creation and management for AI training purposes. It enhances large language models (LLMs), supports educators, and optimizes AI training. Users generate quizzes by interacting with LLMs, which produce Python code quizzes utilizing `input`, `raiseError`, and `print` functions. This ensures seamless integration into existing workflows without new APIs or languages.
 
